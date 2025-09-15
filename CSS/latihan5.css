@@ -1,0 +1,17 @@
+h2 {
+  text-align: center;
+}
+
+img {
+  width: 100px;
+  display: block;
+  margin: auto;
+  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 10px;
+}
+
+p {
+  text-align: center;
+  color: grey;
+}

@@ -1,0 +1,11 @@
+h2 {
+  color: orange;
+}
+
+ol {
+  border: 2px dashed orange;
+}
+
+li {
+  padding: 10px;
+}
