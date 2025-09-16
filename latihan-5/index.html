@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Belajar Vue.JS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <p id="merah" v-text="pesan1" v-if="warna == 'merah'"></p>
+        <p id="kuning" v-text="pesan2" v-else-if="warna == 'kuning'"></p>
+        <p id="hijau" v-text="pesan3" v-else-if="warna == 'hijau'"></p>
+        <p id="biru" v-text="pesan4" v-else-if="warna == 'biru'"></p>
+        <p id="non" v-text="pesan5" v-else></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="apps.js"></script>
+</body>
+</html>

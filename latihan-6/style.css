@@ -1,0 +1,11 @@
+a {
+  text-decoration: none;
+  padding: 20px;
+  display: inline-block;
+  color: grey;
+}
+
+a:hover {
+  border-bottom: 3px solid orange;
+  color: orange;
+}

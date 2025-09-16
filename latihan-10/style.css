@@ -1,0 +1,17 @@
+p {
+  width: 300px;
+  padding: 20px;
+  margin: 0 auto;
+  font-size: xx-large;
+  text-align: center;
+  border: 1px dashed lightgrey;
+}
+
+button {
+  padding: 10px;
+  margin: 10px;
+  width: 150px;
+  border: 1px solid lightgrey;
+  cursor: pointer;
+  display: inline-block;
+}
