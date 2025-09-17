@@ -1,0 +1,40 @@
+input[type="text"] {
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid royalblue;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="button"] {
+  margin-top: 10px;
+  border-radius: 5px;
+  background: royalblue;
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 100px;
+  display: block;
+  margin-left: auto;
+}
+
+#hasil {
+  margin-top: 10px;
+  border: 1px dashed orange;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#hasil h3 {
+  padding-bottom: 10px;
+  border-bottom: 2px solid orange;
+}
+
+.v-enter-active, .v-leave-active {
+  transition: opacity 0.7s;
+}
+.v-enter, .v-leave-to {
+  opacity: 0;
+}

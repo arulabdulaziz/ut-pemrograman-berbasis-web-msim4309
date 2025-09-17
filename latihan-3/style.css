@@ -1,0 +1,44 @@
+form {
+  width: 350px;
+  margin: 0 auto;
+}
+
+#layar {
+  padding: 15px;
+  font-size: large;
+  text-align: right;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 5px;
+  border: 1px solid lightgrey;
+}
+
+[type="button"] {
+  width: 30%;
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  font-size: large;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#ac {
+  background: tomato;
+  color: white;
+}
+
+.operator {
+  background: lightblue;
+}
+
+#koma {
+  background: lightgrey;
+  margin-left: 0;
+}
+
+#hasil {
+  margin-left: 0;
+  background: royalblue;
+  color: white;
+}

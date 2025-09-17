@@ -1,0 +1,61 @@
+#app {
+  display: table;
+  margin: 0 auto;
+}
+
+p {
+  width: 500px;
+  text-align: center;
+  font-weight: bolder;
+  font-size: large;
+  color: royalblue;
+}
+
+#tulis {
+  padding: 30px;
+  border-radius: 5px;
+  border: 1px solid royalblue;
+  width: 500px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  font-size: large;
+  color: royalblue;
+}
+
+.editing, .hapus {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  margin: 5px;
+}
+
+.editing {
+  width: 50px;
+}
+
+.merah {
+  background: orangered;
+}
+
+.hijau {
+  background: lightgreen;
+}
+
+table {
+  width: 500px;
+  margin-top: 10px;
+}
+
+[type="text"] {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background: none;
+  box-sizing: border-box;
+}
+
+.hapus {
+  background: lightseagreen;
+  width: 100%;
+}
