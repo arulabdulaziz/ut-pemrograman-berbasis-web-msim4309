@@ -7,53 +7,60 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="navbar-brand">
-            <h1>SITTA</h1>
-        </div>
-        <div class="navbar-user">
-            <span id="userInfo"></span>
-            <button onclick="logout()" class="btn-logout">Logout</button>
-        </div>
-    </div>
-
-    <div class="dashboard-container">
-        <div class="dashboard-header">
-            <h2 id="greeting"></h2>
-            <p class="welcome-text">Dashboard Aplikasi SITTA</p>
+    <div id="app">
+        <div class="navbar">
+            <div class="navbar-brand">
+                <h1>SITTA</h1>
+            </div>
+            <div class="navbar-user" v-if="currentUser">
+                <span>{{ currentUser.nama }} ({{ currentUser.role }})</span>
+                <button @click="logout" class="btn-logout">Logout</button>
+            </div>
         </div>
 
-        <div class="menu-grid">
-            <div class="menu-card" onclick="navigateTo('stok.html')">
-                <div class="menu-icon">📚</div>
-                <h3>Informasi Bahan Ajar</h3>
-                <p>Lihat dan kelola stok bahan ajar</p>
+        <div class="dashboard-container" v-if="currentUser">
+            <div class="dashboard-header">
+                <h2>{{ greetingMessage }}</h2>
+                <p class="welcome-text">Dashboard Aplikasi SITTA</p>
             </div>
 
-            <div class="menu-card" onclick="navigateTo('tracking.html')">
-                <div class="menu-icon">📦</div>
-                <h3>Tracking Pengiriman</h3>
-                <p>Lacak status pengiriman bahan ajar</p>
-            </div>
+            <div class="menu-grid">
+                <div class="menu-card" @click="navigateTo('stok.html')">
+                    <div class="menu-icon">📚</div>
+                    <h3>Informasi Bahan Ajar</h3>
+                    <p>Lihat dan kelola stok bahan ajar</p>
+                </div>
 
-            <div class="menu-card">
-                <div class="menu-icon">📊</div>
-                <h3>Laporan</h3>
-                <p>Monitoring Progress DO Bahan Ajar</p>
-                <div class="submenu">
-                    <a href="#">Monitoring Progress DO</a>
-                    <a href="#">Rekap Bahan Ajar</a>
+                <div class="menu-card" @click="navigateTo('tracking.html')">
+                    <div class="menu-icon">📦</div>
+                    <h3>Tracking Pengiriman</h3>
+                    <p>Lacak status pengiriman bahan ajar</p>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-icon">📊</div>
+                    <h3>Laporan</h3>
+                    <p>Monitoring Progress DO Bahan Ajar</p>
+                    <div class="submenu">
+                        <a href="#" @click.prevent="showAlert('Monitoring Progress DO')">Monitoring Progress DO</a>
+                        <a href="#" @click.prevent="showAlert('Rekap Bahan Ajar')">Rekap Bahan Ajar</a>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-icon">📋</div>
+                    <h3>Histori Transaksi</h3>
+                    <p>Riwayat transaksi bahan ajar</p>
                 </div>
             </div>
+        </div>
 
-            <div class="menu-card">
-                <div class="menu-icon">📋</div>
-                <h3>Histori Transaksi</h3>
-                <p>Riwayat transaksi bahan ajar</p>
-            </div>
+        <div v-else class="error-message">
+            <p>Silakan login terlebih dahulu</p>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="js/data.js"></script>
     <script src="js/dashboard.js"></script>
 </body>

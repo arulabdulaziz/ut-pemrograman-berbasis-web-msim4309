@@ -1,37 +1,52 @@
-// Check if user is logged in
-const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-if (!currentUser) {
-    window.location.href = 'index.html';
-}
-
-// Display user info
-document.getElementById('userInfo').textContent = currentUser.nama + ' (' + currentUser.role + ')';
-
-// Generate greeting based on time
-function getGreeting() {
-    const hour = new Date().getHours();
-    if (hour < 11) {
-        return 'Selamat Pagi';
-    } else if (hour < 15) {
-        return 'Selamat Siang';
-    } else if (hour < 18) {
-        return 'Selamat Sore';
-    } else {
-        return 'Selamat Malam';
+// Vue.js Dashboard Component
+new Vue({
+    el: '#app',
+    data: {
+        currentUser: null,
+        currentHour: new Date().getHours()
+    },
+    computed: {
+        // Computed property untuk greeting message berdasarkan waktu
+        greetingMessage() {
+            if (!this.currentUser) return '';
+            
+            let greeting = '';
+            if (this.currentHour < 11) {
+                greeting = 'Selamat Pagi';
+            } else if (this.currentHour < 15) {
+                greeting = 'Selamat Siang';
+            } else if (this.currentHour < 18) {
+                greeting = 'Selamat Sore';
+            } else {
+                greeting = 'Selamat Malam';
+            }
+            
+            return greeting + ', ' + this.currentUser.nama + '!';
+        }
+    },
+    methods: {
+        navigateTo(page) {
+            window.location.href = page;
+        },
+        logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        },
+        showAlert(feature) {
+            alert('Fitur ' + feature + ' akan segera tersedia!');
+        },
+        checkAuth() {
+            const userStr = sessionStorage.getItem('currentUser');
+            if (!userStr) {
+                window.location.href = 'index.html';
+                return;
+            }
+            this.currentUser = JSON.parse(userStr);
+        }
+    },
+    mounted() {
+        this.checkAuth();
     }
-}
-
-document.getElementById('greeting').textContent = getGreeting() + ', ' + currentUser.nama + '!';
-
-// Navigation function
-function navigateTo(page) {
-    window.location.href = page;
-}
-
-// Logout function
-function logout() {
-    if (confirm('Apakah Anda yakin ingin logout?')) {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
-    }
-}
+});

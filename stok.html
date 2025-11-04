@@ -7,95 +7,171 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="navbar-brand">
-            <h1>SITTA</h1>
+    <div id="app">
+        <div class="navbar">
+            <div class="navbar-brand">
+                <h1>SITTA</h1>
+            </div>
+            <div class="navbar-user" v-if="currentUser">
+                <span v-text="userInfo"></span>
+                <button @click="goToDashboard" class="btn-secondary">Dashboard</button>
+                <button @click="logout" class="btn-logout">Logout</button>
+            </div>
         </div>
-        <div class="navbar-user">
-            <span id="userInfo"></span>
-            <button onclick="goToDashboard()" class="btn-secondary">Dashboard</button>
-            <button onclick="logout()" class="btn-logout">Logout</button>
+
+        <div class="container" v-if="currentUser">
+            <div class="page-header">
+                <h2>Informasi Stok Bahan Ajar</h2>
+                <button @click="openAddModal" class="btn-primary">+ Tambah Bahan Ajar</button>
+            </div>
+
+            <!-- Search Filter -->
+            <div class="search-filter">
+                <input 
+                    type="text" 
+                    v-model="searchFilter" 
+                    placeholder="Cari berdasarkan nama barang atau kode..." 
+                    class="search-input">
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cover</th>
+                            <th>Kode Lokasi</th>
+                            <th>Kode Barang</th>
+                            <th>Nama Barang</th>
+                            <th>Jenis</th>
+                            <th>Edisi</th>
+                            <th>Stok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="filteredBahanAjar.length === 0">
+                            <td colspan="8" style="text-align: center; padding: 40px;">
+                                Tidak ada data yang sesuai dengan pencarian
+                            </td>
+                        </tr>
+                        <tr v-for="(item, index) in filteredBahanAjar" :key="index">
+                            <td>
+                                <img 
+                                    :src="item.cover" 
+                                    :alt="item.namaBarang" 
+                                    class="book-cover" 
+                                    @error="handleImageError">
+                            </td>
+                            <td>{{ item.kodeLokasi }}</td>
+                            <td>{{ item.kodeBarang }}</td>
+                            <td>{{ item.namaBarang }}</td>
+                            <td>
+                                <span :class="['badge', item.jenisBarang === 'BMP' ? 'badge-primary' : 'badge-secondary']">
+                                    {{ item.jenisBarang }}
+                                </span>
+                            </td>
+                            <td>{{ item.edisi }}</td>
+                            <td>
+                                <span :class="stockClass(item.stok)">{{ item.stok }}</span>
+                            </td>
+                            <td>
+                                <button class="btn-delete" @click="deleteItem(index)">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Summary Info menggunakan computed -->
+            <div class="summary-info">
+                <p>Total Bahan Ajar: <strong>{{ totalItems }}</strong></p>
+                <p>Total Stok: <strong>{{ totalStok }}</strong></p>
+            </div>
+        </div>
+
+        <!-- Modal Tambah Bahan Ajar menggunakan v-show -->
+        <div v-show="showAddModal" class="modal" @click.self="closeAddModal">
+            <div class="modal-content modal-large">
+                <span class="close" @click="closeAddModal">&times;</span>
+                <h2>Tambah Bahan Ajar Baru</h2>
+                <form @submit.prevent="handleAddItem">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="kodeLokasi">Kode Lokasi</label>
+                            <input 
+                                type="text" 
+                                id="kodeLokasi" 
+                                v-model="newItem.kodeLokasi" 
+                                placeholder="Contoh: 0JKT01" 
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kodeBarang">Kode Barang</label>
+                            <input 
+                                type="text" 
+                                id="kodeBarang" 
+                                v-model="newItem.kodeBarang" 
+                                placeholder="Contoh: EKMA4216" 
+                                required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="namaBarang">Nama Barang</label>
+                        <input 
+                            type="text" 
+                            id="namaBarang" 
+                            v-model="newItem.namaBarang" 
+                            placeholder="Masukkan nama barang" 
+                            required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jenisBarang">Jenis Barang</label>
+                            <select id="jenisBarang" v-model="newItem.jenisBarang" required>
+                                <option value="">Pilih Jenis</option>
+                                <option value="BMP">BMP</option>
+                                <option value="Non-BMP">Non-BMP</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edisi">Edisi</label>
+                            <input 
+                                type="number" 
+                                id="edisi" 
+                                v-model.number="newItem.edisi" 
+                                placeholder="1" 
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok">Stok</label>
+                            <input 
+                                type="number" 
+                                id="stok" 
+                                v-model.number="newItem.stok" 
+                                placeholder="0" 
+                                required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cover">URL Cover</label>
+                        <input 
+                            type="text" 
+                            id="cover" 
+                            v-model="newItem.cover" 
+                            placeholder="img/nama_file.jpg" 
+                            required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Tambah Bahan Ajar</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="page-header">
-            <h2>Informasi Stok Bahan Ajar</h2>
-            <button onclick="openAddModal()" class="btn-primary">+ Tambah Bahan Ajar</button>
-        </div>
-
-        <div class="table-container">
-            <table id="stokTable">
-                <thead>
-                    <tr>
-                        <th>Cover</th>
-                        <th>Kode Lokasi</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Jenis</th>
-                        <th>Edisi</th>
-                        <th>Stok</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="stokTableBody">
-                    <!-- Data akan dimuat disini -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Modal Tambah Bahan Ajar -->
-    <div id="addModal" class="modal">
-        <div class="modal-content modal-large">
-            <span class="close" onclick="closeAddModal()">&times;</span>
-            <h2>Tambah Bahan Ajar Baru</h2>
-            <form id="addStokForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="kodeLokasi">Kode Lokasi</label>
-                        <input type="text" id="kodeLokasi" placeholder="Contoh: 0JKT01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="kodeBarang">Kode Barang</label>
-                        <input type="text" id="kodeBarang" placeholder="Contoh: EKMA4216" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="namaBarang">Nama Barang</label>
-                    <input type="text" id="namaBarang" placeholder="Masukkan nama barang" required>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="jenisBarang">Jenis Barang</label>
-                        <select id="jenisBarang" required>
-                            <option value="">Pilih Jenis</option>
-                            <option value="BMP">BMP</option>
-                            <option value="Non-BMP">Non-BMP</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="edisi">Edisi</label>
-                        <input type="number" id="edisi" placeholder="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="stok">Stok</label>
-                        <input type="number" id="stok" placeholder="0" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="cover">URL Cover</label>
-                    <input type="text" id="cover" placeholder="img/nama_file.jpg" required>
-                </div>
-                
-                <button type="submit" class="btn-primary">Tambah Bahan Ajar</button>
-            </form>
-        </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="js/data.js"></script>
     <script src="js/stok.js"></script>
 </body>

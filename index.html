@@ -7,87 +7,128 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-page">
-    <div class="login-container">
-        <div class="login-box">
-            <div class="login-header">
-                <h1>SITTA</h1>
-                <p class="subtitle">Sistem Informasi Tiras dan Transaksi Bahan Ajar</p>
-                <h2>Selamat Datang</h2>
+    <div id="app" class="login">
+        <div class="login-container">
+            <div class="login-box">
+                <div class="login-header">
+                    <h1>SITTA</h1>
+                    <p class="subtitle">Sistem Informasi Tiras dan Transaksi Bahan Ajar</p>
+                    <h2>Selamat Datang</h2>
+                </div>
+                
+                <form @submit.prevent="handleLogin" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            v-model="loginForm.email" 
+                            placeholder="Masukkan email Anda" 
+                            required>
+                        <span class="error-validation" v-if="!loginForm.emailValid">Email tidak valid</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            v-model="loginForm.password" 
+                            placeholder="Masukkan password Anda" 
+                            required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Login</button>
+                    
+                    <div class="form-links">
+                        <a href="#" @click.prevent="showLupaPasswordModal = true">Lupa Password?</a>
+                        <span>|</span>
+                        <a href="#" @click.prevent="showDaftarModal = true">Daftar</a>
+                    </div>
+                </form>
             </div>
-            
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Masukkan password Anda" required>
-                </div>
-                
-                <button type="submit" class="btn-primary">Login</button>
-                
-                <div class="form-links">
-                    <a href="#" id="lupaPasswordLink">Lupa Password?</a>
-                    <span>|</span>
-                    <a href="#" id="daftarLink">Daftar</a>
-                </div>
-            </form>
+        </div>
+
+        <!-- Modal Lupa Password -->
+        <div v-show="showLupaPasswordModal" class="modal" @click.self="showLupaPasswordModal = false">
+            <div class="modal-content">
+                <span class="close" @click="showLupaPasswordModal = false">&times;</span>
+                <h2>Lupa Password</h2>
+                <form @submit.prevent="handleLupaPassword">
+                    <div class="form-group">
+                        <label for="emailReset">Email Terdaftar</label>
+                        <input 
+                            type="email" 
+                            id="emailReset" 
+                            v-model="resetEmail" 
+                            placeholder="Masukkan email Anda" 
+                            required>
+                        <span class="error-validation" v-if="!emailResetValid">Email tidak valid</span>
+                    </div>
+                    <button type="submit" class="btn-primary">Kirim Link Reset</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Daftar -->
+        <div v-show="showDaftarModal" class="modal" @click.self="showDaftarModal = false">
+            <div class="modal-content">
+                <span class="close" @click="showDaftarModal = false">&times;</span>
+                <h2>Daftar Akun Baru</h2>
+                <form @submit.prevent="handleDaftar">
+                    <div class="form-group">
+                        <label for="namaDaftar">Nama Lengkap</label>
+                        <input 
+                            type="text" 
+                            id="namaDaftar" 
+                            v-model="daftarForm.nama" 
+                            placeholder="Masukkan nama lengkap" 
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailDaftar">Email</label>
+                        <input 
+                            type="email" 
+                            id="emailDaftar" 
+                            v-model="daftarForm.email" 
+                            placeholder="Masukkan email" 
+                            required>
+                        <span class="error-validation" v-if="!daftarForm.emailValid">Email tidak valid</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordDaftar">Password</label>
+                        <input 
+                            type="password" 
+                            id="passwordDaftar" 
+                            v-model="daftarForm.password" 
+                            placeholder="Masukkan password" 
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleDaftar">Role</label>
+                        <select id="roleDaftar" v-model="daftarForm.role" required>
+                            <option value="">Pilih Role</option>
+                            <option value="UPBJJ-UT">UPBJJ-UT</option>
+                            <option value="Puslaba">Puslaba</option>
+                            <option value="Fakultas">Fakultas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lokasiDaftar">Lokasi</label>
+                        <input 
+                            type="text" 
+                            id="lokasiDaftar" 
+                            v-model="daftarForm.lokasi" 
+                            placeholder="Masukkan lokasi" 
+                            required>
+                    </div>
+                    <button type="submit" class="btn-primary">Daftar</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Modal Lupa Password -->
-    <div id="lupaPasswordModal" class="modal">
-        <div class="modal-content">
-            <span class="close" data-modal="lupaPasswordModal">&times;</span>
-            <h2>Lupa Password</h2>
-            <form id="lupaPasswordForm">
-                <div class="form-group">
-                    <label for="emailReset">Email Terdaftar</label>
-                    <input type="email" id="emailReset" placeholder="Masukkan email Anda" required>
-                </div>
-                <button type="submit" class="btn-primary">Kirim Link Reset</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Daftar -->
-    <div id="daftarModal" class="modal">
-        <div class="modal-content">
-            <span class="close" data-modal="daftarModal">&times;</span>
-            <h2>Daftar Akun Baru</h2>
-            <form id="daftarForm">
-                <div class="form-group">
-                    <label for="namaDaftar">Nama Lengkap</label>
-                    <input type="text" id="namaDaftar" placeholder="Masukkan nama lengkap" required>
-                </div>
-                <div class="form-group">
-                    <label for="emailDaftar">Email</label>
-                    <input type="email" id="emailDaftar" placeholder="Masukkan email" required>
-                </div>
-                <div class="form-group">
-                    <label for="passwordDaftar">Password</label>
-                    <input type="password" id="passwordDaftar" placeholder="Masukkan password" required>
-                </div>
-                <div class="form-group">
-                    <label for="roleDaftar">Role</label>
-                    <select id="roleDaftar" required>
-                        <option value="">Pilih Role</option>
-                        <option value="UPBJJ-UT">UPBJJ-UT</option>
-                        <option value="Puslaba">Puslaba</option>
-                        <option value="Fakultas">Fakultas</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="lokasiDaftar">Lokasi</label>
-                    <input type="text" id="lokasiDaftar" placeholder="Masukkan lokasi" required>
-                </div>
-                <button type="submit" class="btn-primary">Daftar</button>
-            </form>
-        </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="js/data.js"></script>
     <script src="js/login.js"></script>
 </body>
