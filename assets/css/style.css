@@ -1,0 +1,200 @@
+/* Basic layout */
+* {
+  box-sizing: border-box;
+  font-family: Inter, Segoe UI, Arial, Helvetica, sans-serif;
+}
+body {
+  margin: 0;
+  background: #f5f7fb;
+  color: #222;
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #e3e8f0;
+}
+.app-header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+.tabs button {
+  margin-right: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  cursor: pointer;
+}
+.tabs button.active {
+  background: #0b78d1;
+  color: #fff;
+  border-color: #0b78d1;
+}
+.app-main {
+  padding: 20px;
+}
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.table th,
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+}
+.table thead th {
+  background: #fafafa;
+}
+.table tbody tr:hover {
+  background: #fbfdff;
+}
+
+/* Buttons */
+.btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 0;
+  cursor: pointer;
+}
+.btn-primary {
+  background: #0b78d1;
+  color: #fff;
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #111;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal-box {
+  background: #fff;
+  padding: 18px;
+  border-radius: 8px;
+  max-width: 720px;
+  width: 100%;
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.2);
+}
+.modal-close {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Form */
+.form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #344054;
+}
+.form-group input,
+.form-group select,
+textarea {
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* status badge simple */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.status-aman {
+  background: #ecfdf5;
+  color: #027a48;
+}
+.status-warning {
+  background: #fff7ed;
+  color: #9a5800;
+}
+.status-empty {
+  background: #fff1f2;
+  color: #b42318;
+}
+
+/* tooltip preview */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+.tooltip .tooltip-content {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  top: 120%;
+  min-width: 220px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(2, 6, 23, 0.15);
+  border: 1px solid #e6edf3;
+}
+.tooltip:hover .tooltip-content {
+  display: block;
+}
+
+/* small helpers */
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.filter-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.small {
+  font-size: 13px;
+  color: #64748b;
+}
+.center {
+  text-align: center;
+}
+
+.input-perjalanan {
+  margin: 10px 0;
+}

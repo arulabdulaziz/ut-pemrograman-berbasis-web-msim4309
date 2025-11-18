@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SITTA - Tugas Praktik 3 (Vue.js)</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Vue 2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <h1>SITTA</h1>
+      <nav class="tabs">
+        <button :class="{active: tab==='stok'}" @click="tab='stok'">Stok</button>
+        <button :class="{active: tab==='tracking'}" @click="tab='tracking'">Tracking DO</button>
+        <button :class="{active: tab==='order'}" @click="tab='order'">Order Baru</button>
+      </nav>
+    </header>
+
+    <main class="app-main">
+      <section v-if="loading" class="loading">Memuat data...</section>
+
+      <!-- stok -->
+      <ba-stock-table v-if="!loading && tab==='stok'"
+        :stok-data="data.stok"
+        :upbjj-list="data.upbjjList"
+        :kategori-list="data.kategoriList"
+        @update-stok="onUpdateStok"
+      ></ba-stock-table>
+
+      <!-- tracking -->
+      <do-tracking v-if="!loading && tab==='tracking'"
+        :tracking-data="data.tracking"
+        :upbjj-list="data.upbjjList"
+        :paket-list="data.paket"
+        :pengiriman-list="data.pengirimanList"
+        @save-do="onSaveDO"
+      ></do-tracking>
+
+      <!-- order -->
+      <order-form v-if="!loading && tab==='order'"
+        :paket-list="data.paket"
+        @create-order="onCreateOrder"
+      ></order-form>
+    </main>
+
+    <app-modal ref="globalModal"></app-modal>
+    <footer class="app-footer">
+      <small>Praktik Vue.js — SITTA - Tugas 3</small>
+    </footer>
+  </div>
+
+  <!-- services & components -->
+  <script src="js/services/api.js"></script>
+
+  <script src="js/components/app-modal.js"></script>
+  <script src="js/components/status-badge.js"></script>
+  <script src="js/components/ba-stock-table.js"></script>
+  <script src="js/components/do-tracking.js"></script>
+  <script src="js/components/order-form.js"></script>
+
+  <!-- root app -->
+  <script src="js/app.js"></script>
+</body>
+</html>
